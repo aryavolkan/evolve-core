@@ -70,6 +70,7 @@ func setup_evolution():
 
 - [evolve](https://github.com/user/evolve) - A real-time evolution sandbox
 - [chess-evolve](https://github.com/user/chess-evolve) - Neural network chess AI
+- [tile-empire](https://github.com/user/tile-empire) - Hex-based strategy game with NEAT neuroevolution
 
 ## Contributing
 
