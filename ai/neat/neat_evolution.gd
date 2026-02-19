@@ -1,7 +1,7 @@
 extends "res://ai/evolution_base.gd"
 class_name NeatEvolution
 
-const NSGA2 = preload("res://addons/evolve-core/genetic/nsga2.gd")
+const NSGA2 = preload("res://evolve-core/genetic/nsga2.gd")
 
 ## NEAT evolution manager: manages a population of NeatGenomes,
 ## organizes them into species, and produces new generations via

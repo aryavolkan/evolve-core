@@ -4,8 +4,8 @@ extends EvolutionBase
 ## Simple genetic algorithm implementation using evolve-core components.
 ## Single-objective evolution with tournament selection.
 
-const Operators = preload("res://addons/evolve-core/genetic/operators.gd")
-const NetworkFactory = preload("res://addons/evolve-core/ai/network_factory.gd")
+const Operators = preload("res://evolve-core/genetic/operators.gd")
+const NetworkFactory = preload("res://evolve-core/ai/network_factory.gd")
 
 var network_input_size: int
 var network_hidden_size: int  

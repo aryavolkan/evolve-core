@@ -1,4 +1,4 @@
-extends "res://addons/evolve-core/ai/neural_network.gd"
+extends "res://evolve-core/ai/neural_network.gd"
 
 ## Recurrent neural network with Elman-style memory.
 ## Extends the base neural network with temporal sequence learning capabilities.

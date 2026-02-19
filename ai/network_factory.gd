@@ -41,10 +41,10 @@ static func _create_gdscript_network(
 		use_memory: bool
 	):
 	if use_memory:
-		var RecurrentNet = preload("res://addons/evolve-core/ai/recurrent_network.gd")
+		var RecurrentNet = preload("res://evolve-core/ai/recurrent_network.gd")
 		return RecurrentNet.new(input_size, hidden_size, output_size, true, true)
 	else:
-		var NeuralNet = preload("res://addons/evolve-core/ai/neural_network.gd")
+		var NeuralNet = preload("res://evolve-core/ai/neural_network.gd")
 		return NeuralNet.new(input_size, hidden_size, output_size, true)
 
 
