@@ -1,4 +1,4 @@
-class_name EvolutionBase
+## class_name EvolutionBase (conflicts with ai/evolution_base.gd — removed)
 extends RefCounted
 
 ## Base class for evolutionary algorithms.
