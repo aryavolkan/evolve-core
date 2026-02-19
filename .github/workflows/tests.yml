@@ -1,0 +1,33 @@
+name: tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: [self-hosted, macos, arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python lint (ruff)
+        run: |
+          pip3 install --quiet --break-system-packages ruff
+          ./scripts/lint_python.sh
+
+      - name: GDScript lint (gdlint)
+        run: |
+          pip3 install --quiet --break-system-packages gdtoolkit
+          ./scripts/lint_gdscript.sh
+
+  python-tests:
+    runs-on: [self-hosted, macos, arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip3 install --quiet --break-system-packages pytest numpy
+
+      - name: Run tests
+        run: python3 -m pytest tests/ -q

@@ -1,0 +1,39 @@
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+src = ["python"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B904",   # raise ... from ...
+    "SIM117", # merge with statements
+    "SIM105", # use contextlib.suppress
+    "SIM102", # nested if → and
+    "SIM108", # ternary operator
+    "E741",   # ambiguous var name
+    "F841",   # unused local var
+    "E402",   # module import not at top
+]
+
+[tool.ruff.lint.per-file-ignores]
+"python/**/*.py" = ["T201"]  # allow print()
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q"
