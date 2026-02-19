@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: [self-hosted, macos, arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gdtoolkit
+        run: pip3 install --quiet --break-system-packages gdtoolkit
+
+      - name: GDScript lint
+        run: |
+          find . -name "*.gd" -not -path "./.git/*" | xargs gdlint
+
+      - name: GDScript format check
+        run: |
+          find . -name "*.gd" -not -path "./.git/*" | xargs gdformat --check
