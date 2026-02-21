@@ -76,7 +76,7 @@ class NSGA2Selection:
 
         # Find remaining fronts
         current_front = 0
-        while fronts[current_front]:
+        while current_front < len(fronts) and fronts[current_front]:
             next_front = []
 
             for i in fronts[current_front]:
@@ -150,6 +150,11 @@ class NSGA2Selection:
                     distances[idx] += (obj_values[i + 1] - obj_values[i - 1]) / obj_range
 
         return distances
+
+    @staticmethod
+    def select(population: list[dict], target_size: int) -> list[dict]:
+        """Backward-compatible alias for select_population."""
+        return NSGA2Selection.select_population(population, target_size)
 
     @staticmethod
     def select_population(population: list[dict], target_size: int) -> list[dict]:
