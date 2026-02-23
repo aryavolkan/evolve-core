@@ -34,5 +34,5 @@ func create_stats_tracker(window_size: int = 100) -> StatsTracker:
     return StatsTracker.new(window_size)
 
 func create_config(new_name: String = "default") -> ConfigBaseClass:
-	## Create a new configuration
-	return ConfigBaseClass.new(new_name)
+    ## Create a new configuration
+    return ConfigBaseClass.new(new_name)
