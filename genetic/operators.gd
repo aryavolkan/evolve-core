@@ -130,8 +130,8 @@ static func uniform_crossover(parent_a, parent_b, crossover_rate: float = 0.5):
         "Parents must have get_weights() method")
     assert(parent_a.has_method("set_weights"), "Parents must have set_weights() method")
 
-    var weights_a := parent_a.get_weights()
-    var weights_b := parent_b.get_weights()
+    var weights_a: PackedFloat32Array = parent_a.get_weights()
+    var weights_b: PackedFloat32Array = parent_b.get_weights()
     assert(weights_a.size() == weights_b.size(), "Parent weight sizes must match")
 
     var child = parent_a.clone() if parent_a.has_method("clone") else parent_a.duplicate()
@@ -151,15 +151,15 @@ static func single_point_crossover(parent_a, parent_b):
         "Parents must have get_weights() method")
     assert(parent_a.has_method("set_weights"), "Parents must have set_weights() method")
 
-    var weights_a := parent_a.get_weights()
-    var weights_b := parent_b.get_weights()
+    var weights_a: PackedFloat32Array = parent_a.get_weights()
+    var weights_b: PackedFloat32Array = parent_b.get_weights()
     assert(weights_a.size() == weights_b.size(), "Parent weight sizes must match")
 
     var child = parent_a.clone() if parent_a.has_method("clone") else parent_a.duplicate()
     var child_weights := PackedFloat32Array()
     child_weights.resize(weights_a.size())
 
-    var crossover_point := randi() % weights_a.size()
+    var crossover_point: int = randi() % weights_a.size()
 
     for i in weights_a.size():
         child_weights[i] = weights_a[i] if i < crossover_point else weights_b[i]
@@ -179,18 +179,18 @@ static func two_point_crossover(parent_a, parent_b):
         "Parents must have get_weights() method")
     assert(parent_a.has_method("set_weights"), "Parents must have set_weights() method")
 
-    var weights_a := parent_a.get_weights()
-    var weights_b := parent_b.get_weights()
+    var weights_a: PackedFloat32Array = parent_a.get_weights()
+    var weights_b: PackedFloat32Array = parent_b.get_weights()
     assert(weights_a.size() == weights_b.size(), "Parent weight sizes must match")
 
     var child = parent_a.clone() if parent_a.has_method("clone") else parent_a.duplicate()
     var child_weights := PackedFloat32Array()
     child_weights.resize(weights_a.size())
 
-    var p1 := randi() % weights_a.size()
-    var p2 := randi() % weights_a.size()
+    var p1: int = randi() % weights_a.size()
+    var p2: int = randi() % weights_a.size()
     if p1 > p2:
-        var tmp := p1; p1 = p2; p2 = tmp
+        var tmp: int = p1; p1 = p2; p2 = tmp
 
     for i in weights_a.size():
         child_weights[i] = weights_b[i] if (i >= p1 and i < p2) else weights_a[i]
@@ -223,7 +223,7 @@ static func reset_mutate(
     assert(individual.has_method("get_weights") and individual.has_method("set_weights"),
         "Individual must have get/set_weights() methods")
 
-    var weights := individual.get_weights()
+    var weights: PackedFloat32Array = individual.get_weights()
 
     for i in weights.size():
         if randf() < mutation_rate:
@@ -242,7 +242,7 @@ static func creep_mutate(
     assert(individual.has_method("get_weights") and individual.has_method("set_weights"),
         "Individual must have get/set_weights() methods")
 
-    var weights := individual.get_weights()
+    var weights: PackedFloat32Array = individual.get_weights()
 
     for i in weights.size():
         if randf() < mutation_rate:
