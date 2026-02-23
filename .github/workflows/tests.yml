@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: pip3 install --quiet --break-system-packages pytest numpy
+        run: pip3 install --quiet --break-system-packages pytest numpy wandb
 
       - name: Run tests
         run: python3 -m pytest tests/ -q
