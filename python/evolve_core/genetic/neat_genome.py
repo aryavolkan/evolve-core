@@ -78,17 +78,50 @@ class NEATGenome:
         }
 
     @classmethod
-    def from_dict(cls, data: dict, input_size: int, output_size: int):
+    def from_dict(cls, data: dict, input_size: int = None, output_size: int = None):
         """Create genome from dictionary"""
+        nodes = data['nodes']
+        if input_size is None:
+            input_size = sum(1 for n in nodes if n['type'] == 'input')
+        if output_size is None:
+            output_size = sum(1 for n in nodes if n['type'] == 'output')
         genome = cls(input_size, output_size)
         genome.id = data['id']
-        genome.nodes = data['nodes']
+        genome.nodes = nodes
         genome.connections = data['connections']
         genome.fitness = data.get('fitness')
         genome.aggregate_fitness = data.get('aggregate_fitness', 0.0)
         genome.species_id = data.get('species_id')
         genome._node_counter = max(node['id'] for node in genome.nodes) + 1 if genome.nodes else 0
         return genome
+
+    def mutate_weights(self, mutation_rate: float = 0.8, mutation_strength: float = 0.1):
+        """Perturb connection weights by Gaussian noise"""
+        for conn in self.connections:
+            if random.random() < mutation_rate:
+                conn['weight'] += random.gauss(0, mutation_strength)
+
+    def crossover(self, other: 'NEATGenome') -> 'NEATGenome':
+        """Produce a child genome via NEAT crossover (fitter parent is self)"""
+        child = NEATGenome(self.input_size, self.output_size)
+        child.nodes = [dict(n) for n in self.nodes]
+        child._node_counter = self._node_counter
+
+        other_by_innovation = {c['innovation']: c for c in other.connections}
+
+        child_connections = []
+        for conn in self.connections:
+            inn = conn['innovation']
+            if inn in other_by_innovation:
+                # Matching gene: pick randomly from either parent
+                chosen = dict(random.choice([conn, other_by_innovation[inn]]))
+            else:
+                # Disjoint/excess: inherit from the fitter parent (self)
+                chosen = dict(conn)
+            child_connections.append(chosen)
+
+        child.connections = child_connections
+        return child
 
     def distance(self, other: 'NEATGenome', c1: float = 1.0,
                 c2: float = 1.0, c3: float = 0.4) -> float:

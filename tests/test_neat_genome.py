@@ -87,7 +87,7 @@ class TestNEATGenomeMutation:
         g.mutate_weights(mutation_rate=1.0, mutation_strength=0.5)
         new_weights = [c["weight"] for c in g.connections]
         # At least some weights should change with rate=1.0
-        assert any(abs(o - n) > 1e-10 for o, n in zip(original_weights, new_weights))
+        assert any(abs(o - n) > 1e-10 for o, n in zip(original_weights, new_weights, strict=False))
 
     def test_crossover(self):
         g1 = NEATGenome(4, 2)

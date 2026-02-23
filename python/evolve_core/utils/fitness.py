@@ -89,7 +89,7 @@ class NSGA2Selection:
                 fronts.append(next_front)
             current_front += 1
 
-        return fronts[:-1]  # Remove empty last front
+        return fronts
 
     @staticmethod
     def _dominates(solution1: dict, solution2: dict) -> int:
