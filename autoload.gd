@@ -8,16 +8,16 @@ const VERSION = "1.0.0"
 # Preload commonly used classes
 const NeuralNetwork = preload("res://evolve-core/ai/neural_network.gd")
 const RecurrentNetwork = preload("res://evolve-core/ai/recurrent_network.gd")
-const NetworkFactory = preload("res://evolve-core/ai/network_factory.gd")
-const EvolutionBase = preload("res://evolve-core/genetic/evolution_base.gd")
-const GeneticOperators = preload("res://evolve-core/genetic/operators.gd")
-const StatsTracker = preload("res://evolve-core/utils/stats_tracker.gd")
-const ConfigBase = preload("res://evolve-core/utils/config_base.gd")
+const NetworkFactoryClass = preload("res://evolve-core/ai/network_factory.gd")
+const EvolutionBaseClass = preload("res://evolve-core/genetic/evolution_base.gd")
+const GeneticOperatorsClass = preload("res://evolve-core/genetic/operators.gd")
+const StatsTrackerClass = preload("res://evolve-core/utils/stats_tracker.gd")
+const ConfigBaseClass = preload("res://evolve-core/utils/config_base.gd")
 
 # Interfaces
-const IAgent = preload("res://evolve-core/interfaces/agent.gd")
-const ISensor = preload("res://evolve-core/interfaces/sensor.gd")
-const IReward = preload("res://evolve-core/interfaces/reward.gd")
+const IAgentClass = preload("res://evolve-core/interfaces/agent.gd")
+const ISensorClass = preload("res://evolve-core/interfaces/sensor.gd")
+const IRewardClass = preload("res://evolve-core/interfaces/reward.gd")
 
 
 func _ready() -> void:
@@ -34,6 +34,6 @@ func create_stats_tracker(window_size: int = 100) -> StatsTracker:
 	return StatsTracker.new(window_size)
 
 
-func create_config(name: String = "default") -> ConfigBase:
+func create_config(new_name: String = "default") -> ConfigBaseClass:
 	## Create a new configuration
-	return ConfigBase.new(name)
+	return ConfigBaseClass.new(new_name)
