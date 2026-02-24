@@ -1,6 +1,7 @@
 # Godot-specific ignores
 .import/
 *.tmp
+*.uid
 .godot/
 
 # Imported translations (automatically generated from CSV files)
