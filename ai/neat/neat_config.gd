@@ -58,7 +58,8 @@ var min_species_protected: int = 2   ## Never kill these many top species
 # INITIAL POPULATION
 # ============================================================
 
-var initial_connection_fraction: float = 0.3  ## Fraction of input→output connections in initial genomes
+## Fraction of input→output connections in initial genomes
+var initial_connection_fraction: float = 0.3
 
 # ============================================================
 # PARSIMONY (optional complexity penalty)

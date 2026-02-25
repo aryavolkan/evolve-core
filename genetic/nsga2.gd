@@ -1,5 +1,5 @@
-extends RefCounted
 class_name NSGA2
+extends RefCounted
 
 ## NSGA-II (Non-dominated Sorting Genetic Algorithm II)
 ## Multi-objective selection using Pareto dominance, non-dominated sorting,
@@ -177,7 +177,10 @@ static func build_rank_map(fronts: Array, pop_size: int) -> PackedInt32Array:
     return ranks
 
 
-static func tournament_select(objectives: Array, fronts: Array, crowding: Dictionary, rng: RandomNumberGenerator = null, rank_map: PackedInt32Array = PackedInt32Array()) -> int:
+static func tournament_select(
+        objectives: Array, fronts: Array, crowding: Dictionary,
+        rng: RandomNumberGenerator = null,
+        rank_map: PackedInt32Array = PackedInt32Array()) -> int:
     ## Binary tournament selection using NSGA-II crowded comparison.
     ## Input:
     ##   objectives — Array of Vector3
@@ -209,13 +212,12 @@ static func tournament_select(objectives: Array, fronts: Array, crowding: Dictio
     # Prefer lower rank (better front)
     if rank_a < rank_b:
         return a
-    elif rank_b < rank_a:
+    if rank_b < rank_a:
         return b
-    else:
-        # Same rank — prefer higher crowding distance
-        var dist_a: float = crowding.get(a, 0.0)
-        var dist_b: float = crowding.get(b, 0.0)
-        return a if dist_a >= dist_b else b
+    # Same rank — prefer higher crowding distance
+    var dist_a: float = crowding.get(a, 0.0)
+    var dist_b: float = crowding.get(b, 0.0)
+    return a if dist_a >= dist_b else b
 
 
 static func _get_front_rank(individual: int, fronts: Array) -> int:

@@ -12,17 +12,16 @@ var innovation_tracker: NeatInnovation
 var species_list: Array = []  ## Array of NeatSpecies
 var best_genome: NeatGenome = null
 var all_time_best_genome: NeatGenome = null
-var _next_species_id: int = 0
-
-# Multi-objective support (MO-NEAT)
 var objective_scores: Array = []  ## Array of Vector3 per individual; set via set_objectives()
 var pareto_front: Array = []
 var last_hypervolume: float = 0.0
+var _next_species_id: int = 0
 
 func _init(p_config: NeatConfig) -> void:
     config = p_config
     super._init(config.population_size, 0.0, 0.0)
-    innovation_tracker = NeatInnovation.new(p_config.input_count + p_config.output_count + int(p_config.use_bias))
+    var node_count := p_config.input_count + p_config.output_count + int(p_config.use_bias)
+    innovation_tracker = NeatInnovation.new(node_count)
     _initialize_population()
 
 
@@ -117,7 +116,11 @@ func _apply_mo_fitness() -> void:
         var raw: float = objective_scores[i].x + objective_scores[i].y + objective_scores[i].z
         var rank_bonus: float = max_scalar * pow(0.5, rank)
         var cd: float = crowding_map.get(i, 0.0)
-        var crowd_bonus: float = (max_scalar * 0.1) if cd == INF else minf(cd / max(max_scalar, 1.0), 0.1) * max_scalar
+        var crowd_bonus: float
+        if cd == INF:
+            crowd_bonus = max_scalar * 0.1
+        else:
+            crowd_bonus = minf(cd / max(max_scalar, 1.0), 0.1) * max_scalar
         var mo_fitness: float = raw + rank_bonus + crowd_bonus
         population[i].fitness = mo_fitness
         fitness_scores[i] = mo_fitness
@@ -136,7 +139,8 @@ func evolve() -> void:
     save_backup()
 
     # 1. Speciate
-    var spec_result: Dictionary = NeatSpecies.speciate(population, species_list, config, _next_species_id)
+    var spec_result: Dictionary = NeatSpecies.speciate(
+            population, species_list, config, _next_species_id)
     species_list = spec_result.species
     _next_species_id = spec_result.next_id
 
@@ -212,7 +216,8 @@ func evolve() -> void:
             if lineage:
                 var src_lid: int = genome_lid.get(sorted_members[i], -1)
                 if new_population.size() - 1 < new_lineage_ids.size():
-                    new_lineage_ids[new_population.size() - 1] = lineage.record_birth(generation + 1, src_lid, -1, sorted_members[i].fitness, "elite")
+                    new_lineage_ids[new_population.size() - 1] = lineage.record_birth(
+                            generation + 1, src_lid, -1, sorted_members[i].fitness, "elite")
 
         # Breeding pool: top survival_fraction
         var pool_size: int = maxi(1, int(sorted_members.size() * config.survival_fraction))
@@ -239,14 +244,16 @@ func evolve() -> void:
                     var lid_a: int = genome_lid.get(parent_a, -1)
                     var lid_b: int = genome_lid.get(parent_b, -1)
                     if new_population.size() < new_lineage_ids.size():
-                        new_lineage_ids[new_population.size()] = lineage.record_birth(generation + 1, lid_a, lid_b, 0.0, "crossover")
+                        new_lineage_ids[new_population.size()] = lineage.record_birth(
+                                generation + 1, lid_a, lid_b, 0.0, "crossover")
             else:
                 var parent: NeatGenome = pool[randi() % pool.size()]
                 child = parent.copy()
                 if lineage:
                     var lid_a: int = genome_lid.get(parent, -1)
                     if new_population.size() < new_lineage_ids.size():
-                        new_lineage_ids[new_population.size()] = lineage.record_birth(generation + 1, lid_a, -1, 0.0, "mutation")
+                        new_lineage_ids[new_population.size()] = lineage.record_birth(
+                                generation + 1, lid_a, -1, 0.0, "mutation")
 
             child.mutate(config)
             new_population.append(child)
@@ -274,7 +281,8 @@ func evolve() -> void:
         if lineage:
             var lid: int = genome_lid.get(population[src_idx], -1)
             if new_population.size() - 1 < new_lineage_ids.size():
-                new_lineage_ids[new_population.size() - 1] = lineage.record_birth(generation + 1, lid, -1, 0.0, "mutation")
+                new_lineage_ids[new_population.size() - 1] = lineage.record_birth(
+                        generation + 1, lid, -1, 0.0, "mutation")
 
     population = new_population
     population_size = config.population_size

@@ -437,7 +437,9 @@ func serialize() -> Dictionary:
     return {"nodes": nodes, "connections": connections, "fitness": fitness}
 
 
-static func deserialize(data: Dictionary, p_config: NeatConfig, p_tracker: NeatInnovation) -> NeatGenome:
+static func deserialize(
+        data: Dictionary, p_config: NeatConfig, p_tracker: NeatInnovation
+    ) -> NeatGenome:
     ## Reconstruct a genome from a serialized dictionary.
     var genome := NeatGenome.new()
     genome.config = p_config

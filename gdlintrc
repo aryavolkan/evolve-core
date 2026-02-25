@@ -4,7 +4,6 @@
 
 # Rules disabled for this codebase
 disable:
-  - class-definitions-order  # existing code uses pragmatic ordering
   - no-else-return            # stylistic preference
   - no-elif-return            # stylistic preference
   - trailing-whitespace       # handled by editors; too noisy on existing code
@@ -27,7 +26,7 @@ signal-name: "[a-z][a-z0-9]*(_[a-z0-9]+)*"
 sub-class-name: "_?([A-Z][a-z0-9]*)+"
 
 # Limits (relaxed for a large game codebase)
-max-line-length: 200
+max-line-length: 100
 max-public-methods: 80
 max-file-lines: 3000
 function-arguments-number: 12

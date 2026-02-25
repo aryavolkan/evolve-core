@@ -1,5 +1,5 @@
-extends RefCounted
 class_name NeatEvolutionRustIntegration
+extends RefCounted
 
 ## Integration helpers for using Rust NEAT implementations.
 ## Drop-in replacements for hot path operations.
@@ -28,7 +28,9 @@ static func _check_rust_available() -> void:
             print("[NEAT] ⚠ RustNeatSpecies class exists but couldn't instantiate")
 
 ## Calculate distance between two genomes using Rust if available
-static func genome_distance(genome_a: NeatGenome, genome_b: NeatGenome, config: NeatConfig) -> float:
+static func genome_distance(
+        genome_a: NeatGenome, genome_b: NeatGenome,
+        config: NeatConfig) -> float:
     _check_rust_available()
 
     if _rust_genome:
@@ -37,9 +39,8 @@ static func genome_distance(genome_a: NeatGenome, genome_b: NeatGenome, config: 
         var dict_b = _genome_to_dict(genome_b)
         var config_dict = _config_to_dict(config)
         return _rust_genome.distance(dict_a, dict_b, config_dict)
-    else:
-        # Fallback to GDScript
-        return genome_a.distance(genome_b, config)
+    # Fallback to GDScript
+    return genome_a.distance(genome_b, config)
 
 ## Perform crossover using Rust if available
 static func crossover(parent_a: NeatGenome, parent_b: NeatGenome) -> NeatGenome:
@@ -50,9 +51,8 @@ static func crossover(parent_a: NeatGenome, parent_b: NeatGenome) -> NeatGenome:
         var dict_b = _genome_to_dict(parent_b)
         var child_dict = _rust_genome.crossover(dict_a, dict_b)
         return _dict_to_genome(child_dict, parent_a.config, parent_a.innovation_tracker)
-    else:
-        # Fallback to GDScript
-        return NeatGenome.crossover(parent_a, parent_b)
+    # Fallback to GDScript
+    return NeatGenome.crossover(parent_a, parent_b)
 
 ## Mutate genome using Rust if available
 static func mutate(genome: NeatGenome, config: NeatConfig) -> void:
@@ -64,12 +64,14 @@ static func mutate(genome: NeatGenome, config: NeatConfig) -> void:
         _rust_genome.mutate(genome_dict, config_dict)
         # Update genome from mutated dictionary
         _update_genome_from_dict(genome, genome_dict)
-    else:
-        # Fallback to GDScript
-        genome.mutate(config)
+        return
+    # Fallback to GDScript
+    genome.mutate(config)
 
 ## Speciate population using Rust if available
-static func speciate(population: Array, species_list: Array, config: NeatConfig, next_species_id: int) -> Dictionary:
+static func speciate(
+        population: Array, species_list: Array,
+        config: NeatConfig, next_species_id: int) -> Dictionary:
     _check_rust_available()
 
     if _rust_species:
@@ -82,7 +84,10 @@ static func speciate(population: Array, species_list: Array, config: NeatConfig,
         for species in species_list:
             species_array.append(_species_to_dict(species))
 
-        var result = _rust_species.speciate(pop_array, species_array, _config_to_dict(config), next_species_id)
+        var config_dict = _config_to_dict(config)
+        var result = _rust_species.speciate(
+            pop_array, species_array, config_dict, next_species_id
+        )
 
         # Convert result back to GDScript objects
         var new_species = []
@@ -103,9 +108,8 @@ static func speciate(population: Array, species_list: Array, config: NeatConfig,
             "species": new_species,
             "next_id": result.get("next_id", next_species_id)
         }
-    else:
-        # Fallback to GDScript
-        return NeatSpecies.speciate(population, species_list, config, next_species_id)
+    # Fallback to GDScript
+    return NeatSpecies.speciate(population, species_list, config, next_species_id)
 
 ## Helper to convert NeatGenome to dictionary for Rust
 static func _genome_to_dict(genome: NeatGenome) -> Dictionary:
@@ -135,7 +139,9 @@ static func _genome_to_dict(genome: NeatGenome) -> Dictionary:
     }
 
 ## Helper to convert dictionary back to NeatGenome
-static func _dict_to_genome(dict: Dictionary, config: NeatConfig, innovation_tracker: NeatInnovation) -> NeatGenome:
+static func _dict_to_genome(
+        dict: Dictionary, config: NeatConfig,
+        innovation_tracker: NeatInnovation) -> NeatGenome:
     var genome = NeatGenome.new(config, innovation_tracker)
 
     # Recreate nodes

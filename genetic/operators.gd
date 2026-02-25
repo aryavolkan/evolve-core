@@ -81,7 +81,8 @@ static func rank_select(
     for i in n:
         # Linear ranking: p(i) = (2-SP)/N + 2*i*(SP-1)/(N*(N-1))
         var rank := n - i  # Best has rank n, worst has rank 1
-        probs[i] = (2.0 - selection_pressure) / n + 2.0 * (rank - 1) * (selection_pressure - 1.0) / (n * (n - 1))
+        probs[i] = (2.0 - selection_pressure) / n \
+            + 2.0 * (rank - 1) * (selection_pressure - 1.0) / (n * (n - 1))
         total_prob += probs[i]
 
     # Select based on rank probabilities

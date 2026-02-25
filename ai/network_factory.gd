@@ -26,8 +26,12 @@ static func create(
                 if rust_net.has_method("enable_memory"):
                     rust_net.enable_memory()
                 else:
-                    push_warning("RustNeuralNetwork doesn't support memory, falling back to GDScript")
-                    return _create_gdscript_network(input_size, hidden_size, output_size, use_memory)
+                    push_warning(
+                        "RustNeuralNetwork doesn't support memory, falling back to GDScript"
+                    )
+                    return _create_gdscript_network(
+                        input_size, hidden_size, output_size, use_memory
+                    )
             return rust_net
 
     # Fallback to GDScript
@@ -43,9 +47,8 @@ static func _create_gdscript_network(
     if use_memory:
         var RecurrentNet = preload("res://evolve-core/ai/recurrent_network.gd")
         return RecurrentNet.new(input_size, hidden_size, output_size, true, true)
-    else:
-        var NeuralNet = preload("res://evolve-core/ai/neural_network.gd")
-        return NeuralNet.new(input_size, hidden_size, output_size, true)
+    var NeuralNet = preload("res://evolve-core/ai/neural_network.gd")
+    return NeuralNet.new(input_size, hidden_size, output_size, true)
 
 
 static func _check_rust_availability() -> void:
@@ -57,8 +60,8 @@ static func _check_rust_availability() -> void:
 
     if _rust_available:
         print("[NetworkFactory] ✓ Rust neural networks available for acceleration")
-    else:
-        print("[NetworkFactory] ℹ Using GDScript neural networks")
+        return
+    print("[NetworkFactory] ℹ Using GDScript neural networks")
 
 
 static func enable_memory(network) -> void:
@@ -73,6 +76,5 @@ static func clone_network(network):
     ## Clone a network, preserving Rust/GDScript implementation
     if network.has_method("clone"):
         return network.clone()
-    else:
-        push_error("Network doesn't support cloning: " + str(network))
-        return null
+    push_error("Network doesn't support cloning: " + str(network))
+    return null

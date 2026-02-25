@@ -150,8 +150,12 @@ func _mutate_array(arr: PackedFloat32Array, mutation_rate: float, mutation_stren
 
 func crossover_with(other):
     ## Two-point crossover with another network
-    assert(other.input_size == input_size and other.hidden_size == hidden_size and other.output_size == output_size,
-        "Networks must have same architecture for crossover")
+    assert(
+        other.input_size == input_size \
+        and other.hidden_size == hidden_size \
+        and other.output_size == output_size,
+        "Networks must have same architecture for crossover"
+    )
 
     var child = get_script().new(input_size, hidden_size, output_size, false)
     var total := get_weight_count()
@@ -194,6 +198,10 @@ func save_to_dict() -> Dictionary:
 
 func load_from_dict(data: Dictionary) -> void:
     ## Load network from dictionary
-    assert(data.input_size == input_size and data.hidden_size == hidden_size and data.output_size == output_size,
-        "Architecture mismatch in loaded data")
+    assert(
+        data.input_size == input_size \
+        and data.hidden_size == hidden_size \
+        and data.output_size == output_size,
+        "Architecture mismatch in loaded data"
+    )
     set_weights(data.weights)
