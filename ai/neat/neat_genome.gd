@@ -1,5 +1,5 @@
 extends RefCounted
-class_name NeatGenome
+## class_name NeatGenome (removed — chess project defines its own NeatGenome)
 
 ## A NEAT genome: variable-topology neural network encoded as node and connection genes.
 ## Uses historical markings (innovation numbers) for crossover alignment.

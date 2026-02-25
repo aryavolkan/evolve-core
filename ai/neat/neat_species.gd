@@ -1,5 +1,5 @@
 extends RefCounted
-class_name NeatSpecies
+## class_name NeatSpecies (removed — chess project defines its own NeatSpecies)
 
 ## A species in NEAT: a group of genomes with similar topology.
 ## Tracks fitness history for stagnation detection and provides

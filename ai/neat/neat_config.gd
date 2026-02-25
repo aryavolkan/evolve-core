@@ -1,5 +1,5 @@
 extends RefCounted
-class_name NeatConfig
+## class_name NeatConfig (removed — chess project defines its own NeatConfig)
 
 ## All NEAT hyperparameters in one place for easy tuning.
 

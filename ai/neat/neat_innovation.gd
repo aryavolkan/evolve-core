@@ -1,5 +1,5 @@
 extends RefCounted
-class_name NeatInnovation
+## class_name NeatInnovation (removed — chess project defines its own NeatInnovation)
 
 ## Global innovation tracker for NEAT.
 ## Ensures identical structural mutations receive the same innovation number,

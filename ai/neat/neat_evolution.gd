@@ -1,5 +1,5 @@
-extends "res://ai/evolution_base.gd"
-class_name NeatEvolution
+extends "res://evolve-core/genetic/evolution_base.gd"
+## class_name NeatEvolution (removed — chess project defines its own NeatEvolution)
 
 const NSGA2 = preload("res://evolve-core/genetic/nsga2.gd")
 

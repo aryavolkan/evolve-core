@@ -1,5 +1,5 @@
 extends RefCounted
-class_name NeatNetwork
+## class_name NeatNetwork (removed — chess project defines its own NeatNetwork)
 
 ## Phenotype network built from a NeatGenome.
 ## Performs a forward pass through a variable-topology network
