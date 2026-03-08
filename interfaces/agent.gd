@@ -4,7 +4,7 @@ extends RefCounted
 ## Interface for AI agents.
 ## Defines the contract that all agents must implement.
 
-func get_action(observations: PackedFloat32Array):
+func get_action(_observations: PackedFloat32Array):
     ## Given observations, return an action
     push_error("get_action() must be implemented by agent")
     return null
@@ -21,7 +21,7 @@ func get_network():
     return null
 
 
-func set_network(network) -> void:
+func set_network(_network) -> void:
     ## Set the neural network (if applicable)
     push_error("set_network() not implemented")
 

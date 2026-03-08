@@ -45,6 +45,14 @@ func reset_memory() -> void:
         _prev_hidden.fill(0.0)
 
 
+func get_hidden_state() -> PackedFloat32Array:
+    return _prev_hidden
+
+
+func set_hidden_state(state: PackedFloat32Array) -> void:
+    _prev_hidden = state
+
+
 func forward(inputs: PackedFloat32Array) -> PackedFloat32Array:
     ## Run forward pass through the network with optional recurrent connections.
     assert(inputs.size() == input_size, "Input size mismatch")
@@ -119,7 +127,7 @@ func clone():
 
     if use_memory:
         copy.weights_hh = weights_hh.duplicate()
-        copy._prev_hidden = _prev_hidden.duplicate()
+        copy.set_hidden_state(_prev_hidden.duplicate())
 
     return copy
 

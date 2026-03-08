@@ -4,7 +4,7 @@ extends RefCounted
 ## Interface for reward/fitness calculation.
 ## Can be used for both single-objective and multi-objective optimization.
 
-func calculate_reward(agent_data: Dictionary) -> float:
+func calculate_reward(_agent_data: Dictionary) -> float:
     ## Calculate single reward value
     ## agent_data contains relevant metrics (score, time, actions, etc.)
     push_error("calculate_reward() must be implemented")
@@ -31,10 +31,9 @@ func combine_rewards(rewards: Variant) -> float:
     ## Combine multiple rewards into single fitness (for sorting)
     if rewards is float:
         return rewards
-    elif rewards is Array:
+    if rewards is Array:
         var total := 0.0
         for r in rewards:
             total += float(r)
         return total
-    else:
-        return float(rewards)
+    return float(rewards)

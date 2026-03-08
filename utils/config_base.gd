@@ -90,9 +90,8 @@ func load_from_file(path: String) -> bool:
     if json.data is Dictionary:
         load_from_dict(json.data)
         return true
-    else:
-        push_error("Invalid config format in: " + path)
-        return false
+    push_error("Invalid config format in: " + path)
+    return false
 
 
 func save_to_file(path: String) -> bool:
